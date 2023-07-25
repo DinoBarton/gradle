@@ -20,7 +20,6 @@ import org.gradle.api.Action;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFile;
-import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.internal.file.copy.CopyActionExecuter;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.model.ReplacedBy;
@@ -48,7 +47,7 @@ public abstract class AbstractArchiveTask extends AbstractCopyTask {
     // Groovy will try to set the private fields if given the opportunity.
     // This makes it much more difficult for this to happen accidentally.
     private final DirectoryProperty archiveDestinationDirectory;
-    private final RegularFileProperty archiveFile;
+    private final Provider<RegularFile> archiveFile;
     private final Property<String> archiveName;
     private final Property<String> archiveBaseName;
     private final Property<String> archiveAppendix;
@@ -81,8 +80,7 @@ public abstract class AbstractArchiveTask extends AbstractCopyTask {
             return name;
         }));
 
-        archiveFile = objectFactory.fileProperty();
-        archiveFile.convention(archiveDestinationDirectory.file(archiveName));
+        archiveFile = archiveDestinationDirectory.file(archiveName);
 
         archivePreserveFileTimestamps = objectFactory.property(Boolean.class).convention(true);
         archiveReproducibleFileOrder = objectFactory.property(Boolean.class).convention(false);
@@ -119,17 +117,7 @@ public abstract class AbstractArchiveTask extends AbstractCopyTask {
      * @since 5.1
      */
     @OutputFile
-    @SuppressWarnings("DanglingJavadoc")
     public Provider<RegularFile> getArchiveFile() {
-        // TODO: Turn this into an `@implSpec` annotation on the comment above:
-        // https://github.com/gradle/gradle/issues/7486
-        /**
-         * This returns a provider of {@link RegularFile} instead of {@link RegularFileProperty} in order to
-         * prevent users calling {@link org.gradle.api.provider.Property#set} and causing a plugin or users using
-         * {@link AbstractArchiveTask#getArchivePath()} to break or have strange behaviour.
-         * An example can be found
-         * <a href="https://github.com/gradle/gradle-native/issues/893#issuecomment-430776251">here</a>.
-         */
         return archiveFile;
     }
 
