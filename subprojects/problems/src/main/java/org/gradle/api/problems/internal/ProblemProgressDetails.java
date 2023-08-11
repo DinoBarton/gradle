@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package org.gradle.tooling.internal.protocol;
+package org.gradle.api.problems.internal;
 
-import org.gradle.api.NonNullApi;
-import org.gradle.tooling.internal.protocol.events.InternalProgressEvent;
+import org.gradle.api.problems.interfaces.Problem;
 
+public class ProblemProgressDetails {
+    private final Problem problem;
 
-/**
- * This interface is part of the cross-version protocol
- *
- * since 8.4
- */
-@NonNullApi
-public interface InternalProblemEvent extends InternalProgressEvent {
+    ProblemProgressDetails(Problem problem) {
+        this.problem = problem;
+    }
 
-    InternalProblemDetails getDetails();
+    public Problem getProblem() {
+        return problem;
+    }
 }
