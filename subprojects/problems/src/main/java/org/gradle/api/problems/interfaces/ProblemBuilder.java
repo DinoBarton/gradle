@@ -65,7 +65,5 @@ public interface ProblemBuilder {
 
     ReportableProblem build();
 
-    void report();
-
     RuntimeException throwIt();
 }

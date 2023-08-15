@@ -186,11 +186,6 @@ class DelegatingProblemBuilder implements
     }
 
     @Override
-    public void report() {
-        ((ProblemBuilder) delegate).report();
-    }
-
-    @Override
     public RuntimeException throwIt() {
         return ((ProblemBuilder) delegate).throwIt();
     }
