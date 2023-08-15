@@ -57,6 +57,11 @@ public class DefaultProblems extends InternalProblems {
     }
 
     @Override
+    public ProblemGroup getProblemGroup(String groupId) {
+        return problemGroups.get(groupId);
+    }
+
+    @Override
     public RuntimeException throwing(ProblemSpec action) {
         DefaultProblemBuilder defaultProblemBuilder = createProblemBuilderInternal();
         throw action.apply(defaultProblemBuilder)

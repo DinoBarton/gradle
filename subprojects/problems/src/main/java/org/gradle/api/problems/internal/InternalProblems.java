@@ -20,9 +20,11 @@ import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
+import org.gradle.api.problems.interfaces.ProblemGroup;
 import org.gradle.api.problems.interfaces.ReportableProblem;
 import org.gradle.internal.operations.BuildOperationProgressEventEmitter;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 
 import static java.util.Collections.singleton;
@@ -54,4 +56,6 @@ public abstract class InternalProblems extends Problems {
     public void reportAsProgressEvent(Problem problem) {
         buildOperationProgressEventEmitter.emitNowIfCurrent(problem);
     }
+
+    abstract public @Nullable ProblemGroup getProblemGroup(String groupId);
 }
