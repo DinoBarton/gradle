@@ -28,8 +28,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
-import static java.util.Collections.singleton;
-
 /**
  * Problems API service.
  *
@@ -66,7 +64,6 @@ public abstract class Problems {
         ProblemBuilder apply(ProblemBuilderDefiningMessage builder);
     }
 
-    private static Problems problemsService = new NoOpProblems();
 
     abstract public ProblemBuilderDefiningMessage createProblemBuilder();
 
@@ -86,31 +83,4 @@ public abstract class Problems {
     abstract public ProblemGroup registerProblemGroup(String typeId);
 
     abstract public ProblemGroup registerProblemGroup(ProblemGroup typeId);
-
-    protected static void collect(RuntimeException failure) {
-        problemsService.collectError(failure);
-    }
-
-    protected static void collect(Problem problem) {
-        problemsService.collectError(problem);
-    }
-
-    protected static ProblemBuilderDefiningMessage create() {
-        return problemsService.createProblemBuilder();
-    }
-
-    protected static RuntimeException throwing(ProblemBuilder problem, RuntimeException cause) {
-        problem.cause(cause);
-        return throwing(singleton(problem.build()), cause);
-    }
-
-    protected static RuntimeException throwing(Collection<Problem> problems, RuntimeException cause) {
-        collect(problems);
-        throw cause;
-    }
-
-    protected static void collect(Collection<Problem> problems) {
-        problemsService.collectErrors(problems);
-    }
-
 }

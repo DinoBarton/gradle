@@ -16,7 +16,6 @@
 
 package org.gradle.api.problems.internal;
 
-import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
@@ -34,7 +33,7 @@ import static org.gradle.api.problems.interfaces.ProblemGroup.TYPE_VALIDATION_ID
 import static org.gradle.api.problems.interfaces.ProblemGroup.VERSION_CATALOG_ID;
 import static org.gradle.api.problems.interfaces.Severity.ERROR;
 
-public class DefaultProblems extends Problems {
+public class DefaultProblems extends InternalProblems {
     private final BuildOperationProgressEventEmitter buildOperationProgressEventEmitter;
 
     private final Map<String, ProblemGroup> problemGroups = new LinkedHashMap<>();

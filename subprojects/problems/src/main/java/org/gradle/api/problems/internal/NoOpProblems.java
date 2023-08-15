@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.gradle.api.problems;
+package org.gradle.api.problems.internal;
 
 import org.gradle.api.Incubating;
+import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 import org.gradle.api.problems.interfaces.ProblemGroup;
@@ -30,7 +31,7 @@ import java.util.Collection;
  * @since 8.4
  */
 @Incubating
-class NoOpProblems extends Problems {
+class NoOpProblems extends InternalProblems {
     @Override
     public ProblemBuilderDefiningMessage createProblemBuilder() {
         return null;
