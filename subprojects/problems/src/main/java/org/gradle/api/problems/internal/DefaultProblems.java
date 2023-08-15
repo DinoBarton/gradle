@@ -57,24 +57,6 @@ public class DefaultProblems extends InternalProblems {
     }
 
     @Override
-    public ProblemGroup getProblemGroup(String groupId) {
-        return problemGroups.get(groupId);
-    }
-
-    @Override
-    public ProblemGroup registerProblemGroup(String typeId) {
-        PredefinedProblemGroup value = new PredefinedProblemGroup(typeId);
-        problemGroups.put(typeId, value);
-        return value;
-    }
-
-    @Override
-    public ProblemGroup registerProblemGroup(ProblemGroup typeId) {
-        problemGroups.put(typeId.getId(), typeId);
-        return typeId;
-    }
-
-    @Override
     public RuntimeException throwing(ProblemSpec action) {
         DefaultProblemBuilder defaultProblemBuilder = createProblemBuilderInternal();
         throw action.apply(defaultProblemBuilder)

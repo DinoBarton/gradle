@@ -18,11 +18,8 @@ package org.gradle.api.problems;
 
 import org.gradle.api.Incubating;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
-import org.gradle.api.problems.interfaces.ProblemGroup;
 import org.gradle.internal.service.scopes.Scope;
 import org.gradle.internal.service.scopes.ServiceScope;
-
-import javax.annotation.Nullable;
 
 /**
  * Problems API service.
@@ -38,10 +35,4 @@ public abstract class Problems {
     abstract public RuntimeException throwing(ProblemSpec action);
 
     abstract public RuntimeException rethrowing(RuntimeException e, ProblemSpec action);
-
-    abstract public @Nullable ProblemGroup getProblemGroup(String groupId);
-
-    abstract public ProblemGroup registerProblemGroup(String typeId);
-
-    abstract public ProblemGroup registerProblemGroup(ProblemGroup typeId);
 }
