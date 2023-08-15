@@ -18,7 +18,6 @@ package org.gradle.api.problems.internal;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.Incubating;
-import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.interfaces.DocLink;
 import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
@@ -30,7 +29,6 @@ import org.gradle.api.problems.interfaces.ProblemBuilderDefiningType;
 import org.gradle.api.problems.interfaces.ProblemGroup;
 import org.gradle.api.problems.interfaces.ProblemLocation;
 import org.gradle.api.problems.interfaces.Severity;
-import org.gradle.internal.operations.BuildOperationProgressEventEmitter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,8 +55,7 @@ public class DefaultProblemBuilder implements ProblemBuilder,
     private ProblemGroup problemGroup;
     private String message;
     private String problemType;
-    private final Problems problemsService;
-    private final BuildOperationProgressEventEmitter buildOperationProgressEventEmitter;
+    private final InternalProblems problemsService;
     private Severity severity;
     private String path;
     private Integer line;
@@ -72,9 +69,8 @@ public class DefaultProblemBuilder implements ProblemBuilder,
     private RuntimeException exception;
     protected final Map<String, String> additionalMetadata = new HashMap<>();
 
-    public DefaultProblemBuilder(@Nullable Problems problemsService, BuildOperationProgressEventEmitter buildOperationProgressEventEmitter) {
+    public DefaultProblemBuilder(InternalProblems problemsService) {
         this.problemsService = problemsService;
-        this.buildOperationProgressEventEmitter = buildOperationProgressEventEmitter;
     }
 
     @Override
@@ -244,6 +240,6 @@ public class DefaultProblemBuilder implements ProblemBuilder,
     }
 
     private void report(Problem problem) {
-        buildOperationProgressEventEmitter.emitNowIfCurrent(problem);
+        problemsService.reportAsProgressEvent(problem);
     }
 }

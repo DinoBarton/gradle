@@ -20,38 +20,47 @@ import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
+import org.gradle.internal.operations.BuildOperationProgressEventEmitter;
 
 import java.util.Collection;
 
 import static java.util.Collections.singleton;
 
 public abstract class InternalProblems extends Problems {
-    private static final Problems problemsService = new NoOpProblems();
 
-    protected static void collect(RuntimeException failure) {
-        problemsService.collectError(failure);
+    private final BuildOperationProgressEventEmitter buildOperationProgressEventEmitter;
+
+    public InternalProblems(BuildOperationProgressEventEmitter buildOperationProgressEventEmitter) {
+        this.buildOperationProgressEventEmitter = buildOperationProgressEventEmitter;
     }
 
-    protected static void collect(Problem problem) {
-        problemsService.collectError(problem);
+    protected void collect(RuntimeException failure) {
+        collectError(failure);
     }
 
-    protected static void collect(Collection<Problem> problems) {
-        problemsService.collectErrors(problems);
+    protected void collect(Problem problem) {
+        collectError(problem);
     }
 
-    protected static ProblemBuilderDefiningMessage create() {
-        return problemsService.createProblemBuilder();
+    protected void collect(Collection<Problem> problems) {
+        collectErrors(problems);
     }
 
-    protected static RuntimeException throwing(ProblemBuilder problem, RuntimeException cause) {
+    protected ProblemBuilderDefiningMessage create() {
+        return createProblemBuilder();
+    }
+
+    protected RuntimeException throwing(ProblemBuilder problem, RuntimeException cause) {
         problem.cause(cause);
         return throwing(singleton(problem.build()), cause);
     }
 
-    protected static RuntimeException throwing(Collection<Problem> problems, RuntimeException cause) {
+    protected RuntimeException throwing(Collection<Problem> problems, RuntimeException cause) {
         collect(problems);
         throw cause;
     }
 
+    public void reportAsProgressEvent(Problem problem) {
+        buildOperationProgressEventEmitter.emitNowIfCurrent(problem);
+    }
 }

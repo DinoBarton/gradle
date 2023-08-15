@@ -16,6 +16,7 @@
 
 package org.gradle.api.problems.internal;
 
+import org.gradle.api.problems.ProblemSpec;
 import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
@@ -34,12 +35,11 @@ import static org.gradle.api.problems.interfaces.ProblemGroup.VERSION_CATALOG_ID
 import static org.gradle.api.problems.interfaces.Severity.ERROR;
 
 public class DefaultProblems extends InternalProblems {
-    private final BuildOperationProgressEventEmitter buildOperationProgressEventEmitter;
 
     private final Map<String, ProblemGroup> problemGroups = new LinkedHashMap<>();
 
     public DefaultProblems(BuildOperationProgressEventEmitter buildOperationProgressEventEmitter) {
-        this.buildOperationProgressEventEmitter = buildOperationProgressEventEmitter;
+        super(buildOperationProgressEventEmitter);
         addPredefinedGroup(GENERIC_ID);
         addPredefinedGroup(TYPE_VALIDATION_ID);
         addPredefinedGroup(DEPRECATION_ID);
@@ -56,12 +56,12 @@ public class DefaultProblems extends InternalProblems {
 
     @Nonnull
     private DefaultProblemBuilder createProblemBuilderInternal() {
-        return new DefaultProblemBuilder(this, buildOperationProgressEventEmitter);
+        return new DefaultProblemBuilder(this);
     }
 
 
     public void collectError(RuntimeException failure) {
-        new DefaultProblemBuilder(this, buildOperationProgressEventEmitter)
+        new DefaultProblemBuilder(this)
             .message(failure.getMessage())
             .undocumented()
             .noLocation()
@@ -74,8 +74,7 @@ public class DefaultProblems extends InternalProblems {
 
     @Override
     public void collectError(Problem problem) {
-        buildOperationProgressEventEmitter.emitNowIfCurrent(problem);
-//        ProblemsProgressEventEmitterHolder.get().emitNowIfCurrent(problem);
+        reportAsProgressEvent(problem);
     }
 
     @Override

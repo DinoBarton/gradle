@@ -19,7 +19,7 @@ package org.gradle.internal.reflect;
 import org.gradle.api.Action;
 import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.interfaces.Problem;
-import org.gradle.api.problems.internal.ProblemsProgressEventEmitterHolder;
+import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 import org.gradle.internal.reflect.validation.DefaultTypeAwareProblemBuilder;
 import org.gradle.internal.reflect.validation.TypeAwareProblemBuilder;
 import org.gradle.internal.reflect.validation.TypeValidationContext;
@@ -48,7 +48,8 @@ abstract public class ProblemRecordingTypeValidationContext implements TypeValid
 
     @Override
     public void visitTypeProblem(Action<? super TypeAwareProblemBuilder> problemSpec) {
-        DefaultTypeAwareProblemBuilder problemBuilder = new DefaultTypeAwareProblemBuilder(ProblemsProgressEventEmitterHolder.get(), problems);
+        ProblemBuilderDefiningMessage builder = problems.createProblemBuilder();
+        DefaultTypeAwareProblemBuilder problemBuilder = new DefaultTypeAwareProblemBuilder(problems.createProblemBuilder());
         problemSpec.execute(problemBuilder);
         recordProblem(problemBuilder.build());
     }
@@ -60,7 +61,7 @@ abstract public class ProblemRecordingTypeValidationContext implements TypeValid
 
     @Override
     public void visitPropertyProblem(Action<? super TypeAwareProblemBuilder> problemSpec) {
-        DefaultTypeAwareProblemBuilder problemBuilder = new DefaultTypeAwareProblemBuilder(ProblemsProgressEventEmitterHolder.get(), problems);
+        DefaultTypeAwareProblemBuilder problemBuilder = new DefaultTypeAwareProblemBuilder(problems.createProblemBuilder());
         problemSpec.execute(problemBuilder);
         problemBuilder.withAnnotationType(rootType);
         pluginId()
