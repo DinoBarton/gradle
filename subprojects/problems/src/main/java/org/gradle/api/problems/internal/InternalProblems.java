@@ -20,6 +20,7 @@ import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
+import org.gradle.api.problems.interfaces.ReportableProblem;
 import org.gradle.internal.operations.BuildOperationProgressEventEmitter;
 
 import java.util.Collection;
@@ -34,18 +35,6 @@ public abstract class InternalProblems extends Problems {
         this.buildOperationProgressEventEmitter = buildOperationProgressEventEmitter;
     }
 
-    protected void collect(RuntimeException failure) {
-        collectError(failure);
-    }
-
-    protected void collect(Problem problem) {
-        collectError(problem);
-    }
-
-    protected void collect(Collection<Problem> problems) {
-        collectErrors(problems);
-    }
-
     protected ProblemBuilderDefiningMessage create() {
         return createProblemBuilder();
     }
@@ -55,8 +44,10 @@ public abstract class InternalProblems extends Problems {
         return throwing(singleton(problem.build()), cause);
     }
 
-    protected RuntimeException throwing(Collection<Problem> problems, RuntimeException cause) {
-        collect(problems);
+    protected RuntimeException throwing(Collection<ReportableProblem> problems, RuntimeException cause) {
+        for (ReportableProblem problem : problems) {
+            problem.report();
+        }
         throw cause;
     }
 

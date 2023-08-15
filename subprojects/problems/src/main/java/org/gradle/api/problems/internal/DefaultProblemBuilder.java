@@ -28,6 +28,7 @@ import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningType;
 import org.gradle.api.problems.interfaces.ProblemGroup;
 import org.gradle.api.problems.interfaces.ProblemLocation;
+import org.gradle.api.problems.interfaces.ReportableProblem;
 import org.gradle.api.problems.interfaces.Severity;
 
 import javax.annotation.Nonnull;
@@ -167,12 +168,12 @@ public class DefaultProblemBuilder implements ProblemBuilder,
         return this;
     }
 
-    public Problem build() {
-        return buildInternal(null);
+    public ReportableProblem build() {
+        return buildInternal(null, true);
     }
 
     @Nonnull
-    private DefaultProblem buildInternal(@Nullable Severity severity) {
+    private ReportableProblem buildInternal(@Nullable Severity severity, boolean reportable) {
         if (!explicitlyUndocumented && documentationUrl == null) {
             throw new IllegalStateException("Problem is not documented: " + message);
         }
@@ -187,7 +188,7 @@ public class DefaultProblemBuilder implements ProblemBuilder,
             // Column is optional field, so we don't need to check it
         }
 
-        return new DefaultProblem(
+        return new DefaultReportableProblem(
             problemGroup,
             message,
             getSeverity(severity),
@@ -197,7 +198,8 @@ public class DefaultProblemBuilder implements ProblemBuilder,
             solution,
             exception,
             problemType,
-            additionalMetadata);
+            additionalMetadata,
+            reportable ? problemsService : null);
     }
 
 
@@ -227,7 +229,7 @@ public class DefaultProblemBuilder implements ProblemBuilder,
     }
 
     public RuntimeException throwIt() {
-        throw throwError(exception, buildInternal(ERROR));
+        throw throwError(exception, buildInternal(ERROR, false));
     }
 
     private RuntimeException throwError(RuntimeException exception, DefaultProblem problem) {

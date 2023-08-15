@@ -17,14 +17,12 @@
 package org.gradle.api.problems;
 
 import org.gradle.api.Incubating;
-import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 import org.gradle.api.problems.interfaces.ProblemGroup;
 import org.gradle.internal.service.scopes.Scope;
 import org.gradle.internal.service.scopes.ServiceScope;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
 
 /**
  * Problems API service.
@@ -36,12 +34,6 @@ import java.util.Collection;
 public abstract class Problems {
 
     abstract public ProblemBuilderDefiningMessage createProblemBuilder();
-
-    abstract public void collectError(RuntimeException failure);
-
-    abstract public void collectError(Problem problem);
-
-    abstract public void collectErrors(Collection<Problem> problem);
 
     abstract public RuntimeException throwing(ProblemSpec action);
 

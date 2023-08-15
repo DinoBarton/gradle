@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.interfaces.Problem;
+import org.gradle.api.problems.interfaces.ReportableProblem;
 import org.gradle.internal.exceptions.DefaultMultiCauseException;
 import org.gradle.internal.reflect.validation.TypeValidationProblemRenderer;
 import org.gradle.model.internal.type.ModelType;
@@ -49,7 +50,7 @@ public class DefaultTypeValidationContext extends ProblemRecordingTypeValidation
     }
 
     @Override
-    protected void recordProblem(Problem problem) {
+    protected void recordProblem(ReportableProblem problem) {
         if (onlyAffectsCacheableWork(problem.getProblemType()) && !reportCacheabilityProblems) { // TODO (donat) is is already fixed on master
             return;
         }

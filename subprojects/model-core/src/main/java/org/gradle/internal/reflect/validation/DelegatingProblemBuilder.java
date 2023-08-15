@@ -18,7 +18,6 @@ package org.gradle.internal.reflect.validation;
 
 import org.gradle.api.NonNullApi;
 import org.gradle.api.problems.interfaces.DocLink;
-import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningDocumentation;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningGroup;
@@ -26,6 +25,7 @@ import org.gradle.api.problems.interfaces.ProblemBuilderDefiningLocation;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningType;
 import org.gradle.api.problems.interfaces.ProblemGroup;
+import org.gradle.api.problems.interfaces.ReportableProblem;
 import org.gradle.api.problems.interfaces.Severity;
 
 import javax.annotation.Nullable;
@@ -181,7 +181,7 @@ class DelegatingProblemBuilder implements
     }
 
     @Override
-    public Problem build() {
+    public ReportableProblem build() {
         return ((ProblemBuilder) delegate).build();
     }
 

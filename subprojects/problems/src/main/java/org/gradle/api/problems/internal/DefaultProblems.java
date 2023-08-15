@@ -17,14 +17,12 @@
 package org.gradle.api.problems.internal;
 
 import org.gradle.api.problems.ProblemSpec;
-import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 import org.gradle.api.problems.interfaces.ProblemGroup;
 import org.gradle.internal.operations.BuildOperationProgressEventEmitter;
 
 import javax.annotation.Nonnull;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,7 +30,6 @@ import static org.gradle.api.problems.interfaces.ProblemGroup.DEPRECATION_ID;
 import static org.gradle.api.problems.interfaces.ProblemGroup.GENERIC_ID;
 import static org.gradle.api.problems.interfaces.ProblemGroup.TYPE_VALIDATION_ID;
 import static org.gradle.api.problems.interfaces.ProblemGroup.VERSION_CATALOG_ID;
-import static org.gradle.api.problems.interfaces.Severity.ERROR;
 
 public class DefaultProblems extends InternalProblems {
 
@@ -57,29 +54,6 @@ public class DefaultProblems extends InternalProblems {
     @Nonnull
     private DefaultProblemBuilder createProblemBuilderInternal() {
         return new DefaultProblemBuilder(this);
-    }
-
-
-    public void collectError(RuntimeException failure) {
-        new DefaultProblemBuilder(this)
-            .message(failure.getMessage())
-            .undocumented()
-            .noLocation()
-            .type("generic_exception")
-            .group(GENERIC_ID)
-            .severity(ERROR)
-            .withException(failure)
-            .report();
-    }
-
-    @Override
-    public void collectError(Problem problem) {
-        reportAsProgressEvent(problem);
-    }
-
-    @Override
-    public void collectErrors(Collection<Problem> problem) {
-        problem.forEach(this::collectError);
     }
 
     @Override

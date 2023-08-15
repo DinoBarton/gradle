@@ -98,7 +98,7 @@ public class TomlCatalogFileParser {
     );
     private final Path catalogFilePath;
     private final VersionCatalogBuilder builder;
-    private final Supplier<Problems> problemServiceSupplier;
+    private final Supplier<Problems> problemServiceSupplier; // TODO (donat) probably don't need it
 
     public TomlCatalogFileParser(Path catalogFilePath, VersionCatalogBuilder builder, Supplier<Problems> problemServiceSupplier) {
 
@@ -542,6 +542,6 @@ public class TomlCatalogFileParser {
     }
 
     private RuntimeException throwVersionCatalogProblemException(ProblemBuilder problem) {
-        throw throwErrorWithNewProblemsApi("Invalid TOML catalog definition", ImmutableList.of(problem.build()), problemServiceSupplier.get());
+        throw throwErrorWithNewProblemsApi("Invalid TOML catalog definition", ImmutableList.of(problem.build()));
     }
 }

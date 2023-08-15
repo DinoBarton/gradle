@@ -63,7 +63,7 @@ public interface ProblemBuilder {
 
     ProblemBuilder severity(Severity severity);
 
-    Problem build();
+    ReportableProblem build();
 
     void report();
 
