@@ -20,7 +20,6 @@ import org.gradle.api.NonNullApi;
 import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.internal.ProblemsProgressEventEmitterHolder;
 import org.gradle.internal.invocation.BuildAction;
-import org.gradle.internal.operations.BuildOperationProgressEventEmitter;
 
 @NonNullApi
 public class InitProblems implements BuildTreeActionExecutor  {
