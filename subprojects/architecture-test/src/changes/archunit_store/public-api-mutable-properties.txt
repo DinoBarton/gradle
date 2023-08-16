@@ -193,6 +193,7 @@ Method <org.gradle.api.plugins.quality.CodeQualityExtension.isIgnoreFailures()> 
 Method <org.gradle.api.plugins.quality.PmdExtension.getRuleSets()> does not have raw return type assignable to org.gradle.api.provider.Property in (PmdExtension.java:0)
 Method <org.gradle.api.plugins.quality.PmdExtension.getTargetJdk()> does not have raw return type assignable to org.gradle.api.provider.Property in (PmdExtension.java:0)
 Method <org.gradle.api.plugins.quality.PmdExtension.isConsoleOutput()> does not have raw return type assignable to org.gradle.api.provider.Property in (PmdExtension.java:0)
+Method <org.gradle.api.problems.interfaces.ProblemGroup.getId()> does not have raw return type assignable to org.gradle.api.provider.Property in (ProblemGroup.java:0)
 Method <org.gradle.api.publish.ivy.IvyArtifact.getClassifier()> does not have raw return type assignable to org.gradle.api.provider.Property in (IvyArtifact.java:0)
 Method <org.gradle.api.publish.ivy.IvyArtifact.getConf()> does not have raw return type assignable to org.gradle.api.provider.Property in (IvyArtifact.java:0)
 Method <org.gradle.api.publish.ivy.IvyArtifact.getExtension()> does not have raw return type assignable to org.gradle.api.provider.Property in (IvyArtifact.java:0)

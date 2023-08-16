@@ -27,25 +27,20 @@ import javax.annotation.Nonnull;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.gradle.api.problems.interfaces.ProblemGroup.DEPRECATION_ID;
-import static org.gradle.api.problems.interfaces.ProblemGroup.GENERIC_ID;
-import static org.gradle.api.problems.interfaces.ProblemGroup.TYPE_VALIDATION_ID;
-import static org.gradle.api.problems.interfaces.ProblemGroup.VERSION_CATALOG_ID;
-
 public class DefaultProblems extends InternalProblems {
 
     private final Map<String, ProblemGroup> problemGroups = new LinkedHashMap<>();
 
     public DefaultProblems(BuildOperationProgressEventEmitter buildOperationProgressEventEmitter) {
         super(buildOperationProgressEventEmitter);
-        addPredefinedGroup(GENERIC_ID);
-        addPredefinedGroup(TYPE_VALIDATION_ID);
-        addPredefinedGroup(DEPRECATION_ID);
-        addPredefinedGroup(VERSION_CATALOG_ID);
+        addPredefinedGroup(ProblemGroup.GENERIC_ID);
+        addPredefinedGroup(ProblemGroup.TYPE_VALIDATION_ID);
+        addPredefinedGroup(ProblemGroup.DEPRECATION_ID);
+        addPredefinedGroup(ProblemGroup.VERSION_CATALOG_ID);
     }
 
     private void addPredefinedGroup(String genericId) {
-        problemGroups.put(genericId, new PredefinedProblemGroup(genericId));
+        problemGroups.put(genericId, new ProblemGroup(genericId));
     }
 
     public ProblemBuilderDefiningMessage createProblemBuilder() {

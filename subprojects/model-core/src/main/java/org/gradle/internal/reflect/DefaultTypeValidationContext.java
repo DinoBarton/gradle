@@ -36,16 +36,16 @@ public class DefaultTypeValidationContext extends ProblemRecordingTypeValidation
 //    private final ImmutableMap.Builder<Problem, Severity> problems = ImmutableMap.builder();
     private final ImmutableList.Builder<Problem> problems = ImmutableList.builder();
 
-    public static DefaultTypeValidationContext withRootType(Problems problems, Class<?> rootType, boolean cacheable) {
-        return new DefaultTypeValidationContext(problems, rootType, cacheable);
+    public static DefaultTypeValidationContext withRootType(Class<?> rootType, boolean cacheable) {
+        return new DefaultTypeValidationContext(rootType, cacheable);
     }
 
     public static DefaultTypeValidationContext withoutRootType(Problems problems, boolean reportCacheabilityProblems) {
-        return new DefaultTypeValidationContext(problems, null, reportCacheabilityProblems);
+        return new DefaultTypeValidationContext(null, reportCacheabilityProblems);
     }
 
-    private DefaultTypeValidationContext(Problems problems, @Nullable Class<?> rootType, boolean reportCacheabilityProblems) {
-        super(problems, rootType, Optional::empty);
+    private DefaultTypeValidationContext(@Nullable Class<?> rootType, boolean reportCacheabilityProblems) {
+        super(rootType, Optional::empty);
         this.reportCacheabilityProblems = reportCacheabilityProblems;
     }
 

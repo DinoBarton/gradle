@@ -24,14 +24,14 @@ import org.gradle.api.Incubating;
  * @since 8.4
  */
 @Incubating
-public abstract class ProblemGroup {
+public class ProblemGroup {
 
     public static final String GENERIC_ID = "generic";
     public static final String DEPRECATION_ID = "deprecation";
     public static final String VERSION_CATALOG_ID = "version_catalog";
     public static final String TYPE_VALIDATION_ID = "type_validation";
 
-    private final String id;
+    private String id;
 
     public ProblemGroup(String id) {
         this.id = id;
@@ -39,5 +39,20 @@ public abstract class ProblemGroup {
 
     public String getId() {
         return id;
+    }
+
+    // TODO (donat) implement custom serialization for problem groups
+    // The type validation code runs in a separate worker in process isolation. To get back problems data all properties
+    // are serialized into a json file and read on the daemon side.  If the default constructor and the setter is not
+    // present then ValidatePluginsIntegrationTest fails with the following message:
+    // > Unable to invoke no-args constructor for interface org.gradle.api.problems.interfaces.ProblemGroup. Registering
+    // > an InstanceCreator with Gson for this type may fix this problem.
+    // The proper fix should be done in ValidationProblemSerialization.
+
+    public ProblemGroup() {
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -50,7 +50,7 @@ public class DefaultWorkValidationContext implements WorkValidationContext {
     public TypeValidationContext forType(Class<?> type, boolean cacheable) {
         types.add(type);
         Supplier<Optional<PluginId>> pluginId = () -> typeOriginInspector.findPluginDefining(type);
-        return new ProblemRecordingTypeValidationContext(problemsService, type, pluginId) {
+        return new ProblemRecordingTypeValidationContext(type, pluginId) {
             @Override
             protected void recordProblem(ReportableProblem problem) {
                 if (onlyAffectsCacheableWork(problem.getProblemType()) && !cacheable) {

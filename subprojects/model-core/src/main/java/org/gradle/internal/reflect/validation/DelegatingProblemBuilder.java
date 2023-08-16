@@ -47,7 +47,7 @@ class DelegatingProblemBuilder implements
 
     @Override
     public ProblemBuilderDefiningDocumentation message(String message, Object... args) {
-        ProblemBuilderDefiningDocumentation newDelegate = ((DelegatingProblemBuilder) delegate).message(message, args);
+        ProblemBuilderDefiningDocumentation newDelegate = ((ProblemBuilderDefiningMessage) delegate).message(message, args);
         if (delegate != newDelegate) {
             throw new IllegalStateException("Builder pattern expected to return 'this'");
         }

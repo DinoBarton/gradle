@@ -18,8 +18,8 @@ package org.gradle.internal.reflect;
 
 import org.gradle.api.Action;
 import org.gradle.api.problems.Problems;
-import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 import org.gradle.api.problems.interfaces.ReportableProblem;
+import org.gradle.api.problems.internal.ProblemsProgressEventEmitterHolder;
 import org.gradle.internal.reflect.validation.DefaultTypeAwareProblemBuilder;
 import org.gradle.internal.reflect.validation.TypeAwareProblemBuilder;
 import org.gradle.internal.reflect.validation.TypeValidationContext;
@@ -32,23 +32,20 @@ import java.util.function.Supplier;
 import static org.gradle.internal.reflect.validation.DefaultTypeAwareProblemBuilder.PLUGIN_ID;
 
 abstract public class ProblemRecordingTypeValidationContext implements TypeValidationContext {
-    private final Problems problems;
     private final Class<?> rootType;
     private final Supplier<Optional<PluginId>> pluginId;
 
     public ProblemRecordingTypeValidationContext(
-        Problems problems,
         @Nullable Class<?> rootType,
         Supplier<Optional<PluginId>> pluginId
     ) {
-        this.problems = problems;
         this.rootType = rootType;
         this.pluginId = pluginId;
     }
 
     @Override
     public void visitTypeProblem(Action<? super TypeAwareProblemBuilder> problemSpec) {
-        ProblemBuilderDefiningMessage builder = problems.createProblemBuilder();
+        Problems problems = ProblemsProgressEventEmitterHolder.get();
         DefaultTypeAwareProblemBuilder problemBuilder = new DefaultTypeAwareProblemBuilder(problems.createProblemBuilder());
         problemSpec.execute(problemBuilder);
         recordProblem(problemBuilder.build());
@@ -61,6 +58,7 @@ abstract public class ProblemRecordingTypeValidationContext implements TypeValid
 
     @Override
     public void visitPropertyProblem(Action<? super TypeAwareProblemBuilder> problemSpec) {
+        Problems problems = ProblemsProgressEventEmitterHolder.get();
         DefaultTypeAwareProblemBuilder problemBuilder = new DefaultTypeAwareProblemBuilder(problems.createProblemBuilder());
         problemSpec.execute(problemBuilder);
         problemBuilder.withAnnotationType(rootType);
