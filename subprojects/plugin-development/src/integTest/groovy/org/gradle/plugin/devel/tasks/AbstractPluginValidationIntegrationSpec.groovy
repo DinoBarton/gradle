@@ -130,7 +130,6 @@ abstract class AbstractPluginValidationIntegrationSpec extends AbstractIntegrati
                 @TaskAction void execute() {}
             }
         """
-        args('--stacktrace')
 
         expect:
         assertValidationFailsWith([

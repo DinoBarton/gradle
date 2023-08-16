@@ -98,7 +98,7 @@ public class TomlCatalogFileParser {
     );
     private final Path catalogFilePath;
     private final VersionCatalogBuilder builder;
-    private final Supplier<Problems> problemServiceSupplier; // TODO (donat) probably don't need it
+    private final Supplier<Problems> problemServiceSupplier;
 
     public TomlCatalogFileParser(Path catalogFilePath, VersionCatalogBuilder builder, Supplier<Problems> problemServiceSupplier) {
         this.catalogFilePath = catalogFilePath;
