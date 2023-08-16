@@ -184,9 +184,4 @@ class DelegatingProblemBuilder implements
     public ReportableProblem build() {
         return ((ProblemBuilder) delegate).build();
     }
-
-    @Override
-    public RuntimeException throwIt() {
-        return ((ProblemBuilder) delegate).throwIt();
-    }
 }

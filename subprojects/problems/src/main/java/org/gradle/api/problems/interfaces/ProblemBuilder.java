@@ -63,7 +63,5 @@ public interface ProblemBuilder {
 
     ProblemBuilder severity(Severity severity);
 
-    ReportableProblem build();
-
-    RuntimeException throwIt();
+    ReportableProblem build(); // TODO (donat) consider moving it to Problems
 }

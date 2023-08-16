@@ -16,7 +16,8 @@
 
 package org.gradle.api.problems.internal;
 
-import org.gradle.api.problems.ProblemSpec;
+import org.gradle.api.problems.ProblemBuilderSpec;
+import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 import org.gradle.api.problems.interfaces.ProblemGroup;
@@ -62,17 +63,22 @@ public class DefaultProblems extends InternalProblems {
     }
 
     @Override
-    public RuntimeException throwing(ProblemSpec action) {
+    public RuntimeException throwing(ProblemBuilderSpec action) {
         DefaultProblemBuilder defaultProblemBuilder = createProblemBuilderInternal();
-        throw action.apply(defaultProblemBuilder)
-            .throwIt();
+        ProblemBuilder problemBuilder =action.apply(defaultProblemBuilder);
+        throw throwError(defaultProblemBuilder.getException(), problemBuilder.build());
     }
 
     @Override
-    public RuntimeException rethrowing(RuntimeException e, ProblemSpec action) {
+    public RuntimeException rethrowing(RuntimeException e, ProblemBuilderSpec action) {
         DefaultProblemBuilder defaultProblemBuilder = createProblemBuilderInternal();
         ProblemBuilder problemBuilder = action.apply(defaultProblemBuilder);
         problemBuilder.withException(e);
-        throw problemBuilder.throwIt();
+        throw throwError(e, problemBuilder.build());
+    }
+
+    public RuntimeException throwError(RuntimeException exception, Problem problem) {
+        reportAsProgressEvent(problem);
+        throw exception;
     }
 }

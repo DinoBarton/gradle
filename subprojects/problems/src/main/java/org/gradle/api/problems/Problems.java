@@ -28,11 +28,11 @@ import org.gradle.internal.service.scopes.ServiceScope;
  */
 @Incubating
 @ServiceScope(Scope.Global.class)
-public abstract class Problems {
+public interface Problems {
 
-    abstract public ProblemBuilderDefiningMessage createProblemBuilder();
+    ProblemBuilderDefiningMessage createProblemBuilder();
 
-    abstract public RuntimeException throwing(ProblemSpec action);
+    RuntimeException throwing(ProblemBuilderSpec action);
 
-    abstract public RuntimeException rethrowing(RuntimeException e, ProblemSpec action);
+    RuntimeException rethrowing(RuntimeException e, ProblemBuilderSpec action);
 }

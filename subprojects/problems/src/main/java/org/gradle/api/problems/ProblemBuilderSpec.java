@@ -21,8 +21,6 @@ import org.gradle.api.problems.interfaces.Problem;
 import org.gradle.api.problems.interfaces.ProblemBuilder;
 import org.gradle.api.problems.interfaces.ProblemBuilderDefiningMessage;
 
-import javax.annotation.Nonnull;
-
 /**
  * A function that can be used to specify a {@link Problem} using a {@link ProblemBuilder}.
  * <p>
@@ -44,8 +42,7 @@ import javax.annotation.Nonnull;
  * @since 8.4
  */
 @Incubating
-public interface ProblemSpec {
+public interface ProblemBuilderSpec {
 
-    @Nonnull
     ProblemBuilder apply(ProblemBuilderDefiningMessage builder);
 }

@@ -244,4 +244,8 @@ public class DefaultProblemBuilder implements ProblemBuilder,
     private void report(Problem problem) {
         problemsService.reportAsProgressEvent(problem);
     }
+
+    RuntimeException getException() {
+        return exception;
+    }
 }

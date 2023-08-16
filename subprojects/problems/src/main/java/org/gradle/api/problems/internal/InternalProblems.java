@@ -29,7 +29,7 @@ import java.util.Collection;
 
 import static java.util.Collections.singleton;
 
-public abstract class InternalProblems extends Problems {
+public abstract class InternalProblems implements Problems {
 
     private final BuildOperationProgressEventEmitter buildOperationProgressEventEmitter;
 
